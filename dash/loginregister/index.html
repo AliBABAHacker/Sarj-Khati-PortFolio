@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarj Khati | PORTFOLIO</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="form-container">
+            <form class="login-form" id="loginForm" action="auth.php" method="POST">
+                <h2>Login</h2>
+                <div class="input-field">
+                    <input type="email" name="email" id="loginEmail" required>
+                    <label>Enter your email</label>
+                </div>
+                <div class="input-field">
+                    <input type="password" name="password" id="loginPassword" required>
+                    <label>Enter your password</label>
+                </div>
+                <div class="g-recaptcha" data-sitekey="6LcQq-8pAAAAANs3Vu9DmvYR4Uuskx5a9DYoKcd9"></div>
+
+                <div class="forget">
+                    <label for="remember">
+                        <input type="checkbox" name="remember" id="remember">
+                        <p>Remember me</p>
+                    </label>
+
+                    <a href="#">Forgot password?</a>
+                </div>
+
+                <button type="submit" name="login">Log In</button>
+                <div class="register">
+                    <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
+                </div>
+            </form>
+            <form class="register-form" id="registerForm" action="auth.php" method="POST" style="display: none;">
+                <h2>Register</h2>
+                <div class="input-field">
+                    <input type="text" name="name" id="registerName" required>
+                    <label>Enter your name</label>
+                </div>
+                <div class="input-field">
+                    <input type="email" name="email" id="registerEmail" required>
+                    <label>Enter your email</label>
+                </div>
+                <div class="input-field">
+                    <input type="password" name="password" id="registerPassword" required>
+                    <label>Enter your password</label>
+                </div>
+                <button type="submit" name="register">Register</button>
+                <div class="login">
+                    <p>Already have an account? <a href="#" id="showLogin">Log In</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('showRegister').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        });
+
+        document.getElementById('showLogin').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        });
+
+        // Disable paste on input fields
+        const disablePaste = (e) => {
+            e.preventDefault();
+        };
+
+        document.getElementById('loginEmail').addEventListener('paste', disablePaste);
+        document.getElementById('loginPassword').addEventListener('paste', disablePaste);
+        document.getElementById('registerName').addEventListener('paste', disablePaste);
+        document.getElementById('registerEmail').addEventListener('paste', disablePaste);
+        document.getElementById('registerPassword').addEventListener('paste', disablePaste);
+
+        // Auto-fill email if "Remember Me" was checked
+        window.onload = function () {
+            const email = getCookie('email');
+            const token = getCookie('token');
+            if (email && token) {
+                document.getElementById('loginEmail').value = email;
+                // Optionally auto-fill password if you implement token-based authentication
+                // document.getElementById('loginPassword').value = token;
+            }
+        }
+
+        function getCookie(name) {
+            let cookieArr = document.cookie.split(";");
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookiePair = cookieArr[i].split("=");
+                if (name == cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+    </script>
+</body>
+
+</html>
